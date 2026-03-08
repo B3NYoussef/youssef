@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎡 عجلة الأرقام 1-13</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            animation: bgMove 10s infinite alternate;
+        }
+
+        @keyframes bgMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        button {
+            padding: 14px 30px;
+            font-size: 22px;
+            cursor: pointer;
+            border: none;
+            background: #ffdd57;
+            border-radius: 10px;
+            transition: 0.2s;
+            box-shadow: 0 0 10px #fff;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background: #ffe680;
+        }
+
+        #wheel {
+            width: 250px;
+            height: 250px;
+            border: 10px solid #fff;
+            border-radius: 50%;
+            margin: 30px auto;
+            box-shadow: 0 0 20px #ffffffaa;
+            background: radial-gradient(circle, #ffffff, #ffddf3);
+        }
+
+        #result {
+            font-size: 60px;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: pop 0.4s;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* نجوم */
+        .star {
+            position: fixed;
+            font-size: 25px;
+            animation: fall 1s linear forwards;
+        }
+
+        @keyframes fall {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(100px); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>✨ عجلة الأرقام 1 إلى 13 ✨</h1>
+
+    <div id="wheel"></div>
+
+    <button onclick="spin()">🎡 دُور العجلة</button>
+
+    <div id="result"></div>
+    <p id="remaining"></p>
+
+    <script>
+        let wheel = [];
+
+        function resetWheel() {
+            wheel = [];
+            for (let i = 1; i <= 13; i++) {
+                for (let j = 0; j < 4; j++) {
+                    wheel.push(i);
+                }
+            }
+        }
+
+        resetWheel();
+
+        function createStar() {
+            let star = document.createElement("div");
+            star.className = "star";
+            star.innerHTML = "⭐";
+
+            star.style.left = Math.random() * window.innerWidth + "px";
+            star.style.top = "100px";
+
+            document.body.appendChild(star);
+
+            setTimeout(() => star.remove(), 1000);
+        }
+
+        function spin() {
+            if (wheel.length === 0) {
+                document.getElementById("result").innerHTML = "🎉 انتهت كل الأرقام!";
+                return;
+            }
+
+            // أنيميشن نجوم
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createStar, i * 100);
+            }
+
+            // اختيار رقم عشوائي
+            let randomIndex = Math.floor(Math.random() * wheel.length);
+            let number = wheel[randomIndex];
+
+            // حذف الرقم المختار
+            wheel.splice(randomIndex, 1);
+
+            // عرض النتيجة
+            document.getElementById("result").innerHTML = number;
+
+            document.getElementById("remaining").innerHTML =
+                "الأرقام المتبقية: " + wheel.length;
+        }
+    </script>
+
+</body>
+</html>
